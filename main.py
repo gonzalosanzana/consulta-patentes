@@ -25,4 +25,9 @@ def buscar_patente(patente: str):
     else:
         return {"error": "Patente no encontrada"}
 
+from fastapi.responses import JSONResponse
+
+@app.get("/")
+def root():
+    return JSONResponse(content={"mensaje": "Bienvenido. Usa /buscar?patente=XXXX-YY para consultar."})
 
