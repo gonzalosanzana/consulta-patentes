@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Consulta de Patentes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f9f9f9;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Consulta de Patente Chilena</h1>
+  <input type="text" id="patente" placeholder="Ej: SKBK-93" />
+  <button onclick="buscarPatente()">Buscar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    async function buscarPatente() {
+      const patente = document.getElementById("patente").value;
+      const resultado = document.getElementById("resultado");
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/buscar?patente=${patente}`);
+        const data = await response.json();
+
+        if (data.error) {
+          resultado.textContent = "❌ Patente no encontrada";
+        } else {
+          resultado.textContent = `✅ Dueño: ${data.nombre} ${data.apellido}`;
+        }
+      } catch (error) {
+        resultado.textContent = "❗ Error al consultar";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
